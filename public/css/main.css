@@ -4,12 +4,18 @@ html {
 
 body {
   margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 .layout {
   height: 100vh;
   display: grid;
   grid-template-rows: 4rem auto 2rem;
+}
+
+a {
+  color: #666;
+  text-decoration: none;
 }
 
 h1 {
@@ -37,6 +43,7 @@ header .button {
   padding: .5rem;
   font-weight: bold;
   line-height: 1rem;
+  text-transform: uppercase;
 }
 
 main {
@@ -44,6 +51,20 @@ main {
   align-items: center;
   justify-content: center;
   font-size: 5rem;
+  text-align: center;
+  padding: 2rem;
+  font-family: serif;
+  font-weight: bold;
+}
+
+main b {
+  color: #c03;
+}
+
+@media (max-width: 600px) {
+  main {
+    font-size: 3rem;
+  }
 }
 
 main p:not(:first-child) {
@@ -90,4 +111,10 @@ footer {
   padding: .5rem;
   font-weight: bold;
   line-height: 1rem;
+}
+
+.form p {
+  margin-top: 3rem;
+  text-align: center;
+  font-size: 1rem;
 }

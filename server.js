@@ -12,6 +12,8 @@ const database = new Datastore('mft.db');
 database.loadDatabase();
 
 app.post('/api', (request, response) => {
+  request.body["timestamp"] = Date.now();
+  console.log(request.body);
   database.insert(request.body);
   response.json({
     status: 'success'
@@ -21,9 +23,11 @@ app.post('/api', (request, response) => {
 });
 
 app.get('/api', (request, response) => {
-  database.find({}, (err, data) => {
+  database.find().sort({ "timestamp": -1 }).exec((err, data) => {
     if (err) {
-      response.end();
+      response.json({
+        status: 'error'
+      });
       return;
     }
     response.json(data);

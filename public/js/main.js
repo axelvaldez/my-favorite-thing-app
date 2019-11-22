@@ -3,6 +3,7 @@ const formThing = document.querySelector("#form-thing");
 const formSubmit = document.querySelector("#form-submit");
 const newThing = document.querySelector(".new-thing");
 const formOverlay = document.querySelector(".overlay.form");
+const cancel = document.querySelector(".cancel");
 let n = 0;
 let things;
 let interval;
@@ -12,6 +13,7 @@ newThing.addEventListener("click", showForm);
 
 function showForm() {
   formOverlay.style.display = "flex";
+  formCategory.focus();
 }
 
 function dismissForm() {
@@ -35,10 +37,24 @@ async function submitForm() {
     };
     const response = await fetch('/api', options);
     const talkback = await response.json();
+    console.log(talkback.status);
     if (talkback.status == "success") {
+      clearInterval(interval);
+      getData();
       dismissForm();
+    } else if (talkback.status == "error") {
+      notifyError("Something went wrong, sowwy. 🤕")
     }
   }
+}
+
+function notifyError(errorMessage) {
+  clearInterval(interval);
+  const root = document.querySelector(".things");
+  const error = document.createElement('p');
+  root.innerHTML = errorMessage;
+  root.append(error);
+  dismissForm();
 }
 
 async function getData() {
@@ -47,15 +63,20 @@ async function getData() {
   renderThings(data);
 }
 
-function renderThings(data) {
+function renderThings(list) {
   const root = document.querySelector(".things");
-  for (item of data) {
+  const data = Object.assign([], list).reverse();
+
+  n = 0;
+  root.innerHTML = "";
+
+  data.forEach(item => {
     const phrase = document.createElement('p');
     phrase.innerHTML = `My favorite <b>${item.category}</b> is <b>${item.thing}</b>.`;
     root.append(phrase);
-  }
+  });
   things = document.querySelectorAll('main p');
-  interval = setInterval(nextThing, 3000);
+  interval = setInterval(nextThing, 2000);
 }
 
 function nextThing() {
@@ -68,6 +89,11 @@ function nextThing() {
   }
   things[n].style.display = 'block';
 }
+
+cancel.addEventListener("click", (e) => {
+  e.preventDefault();
+  dismissForm();
+});
 
 window.addEventListener("load", getData);
 
