@@ -65,7 +65,7 @@ async function getData() {
 
 function renderThings(list) {
   const root = document.querySelector(".things");
-  const data = Object.assign([], list).reverse();
+  const data = list;
 
   n = 0;
   root.innerHTML = "";
