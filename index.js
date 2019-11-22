@@ -1,10 +1,13 @@
 const Datastore = require('nedb');
 const express = require('express');
 const app = express();
-app.listen(3000);
+const port = process.env.PORT || 8000;
 app.use(express.static('public'));
 app.use(express.json({ limit: '500kb' }));
 
+app.listen(port, () => {
+  console.log(`listening at ${port}`);
+});
 const database = new Datastore('mft.db');
 database.loadDatabase();
 
